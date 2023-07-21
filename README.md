@@ -4,6 +4,7 @@
 ## ```Algorithm```
 ## ```Data structure```
 
+![alt text](https://github.com/THEKINGSTAR/alx-low_level_programming/blob/main/willy-wonka.png?raw=true)
 ![alt text]([https://github.com/THEKINGSTAR/```sorting_algorithms```/blob/main/willy-wonka.png](https://github.com/THEKINGSTAR/sorting_algorithms/blob/main/willy-wonka.png)?raw=true)
 
 ## Background Context
