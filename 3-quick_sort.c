@@ -1,7 +1,7 @@
 #include "sort.h"
 
 void quick_sort_recursion(int *array, int low, int high, size_t size);
-int lomuto_partitio(int *array, int low, int high);
+int lomuto_partitio(int *array, int low, int high, size_t size);
 
 /**
  * swap - function to swap tow elemnt in array
@@ -52,11 +52,10 @@ void quick_sort_recursion(int *array, int low, int high, size_t size)
 
 	if (low < high)
 	{
-		pivot_idx = lomuto_partition(array, low, high);
+		pivot_idx = lomuto_partition(array, low, high, size);
 		quick_sort_recursion(array, low, pivot_idx - 1, size);
 		quick_sort_recursion(array, pivot_idx + 1, high, size);
 	}
-	print_array(array, size);
 }
 
 /**
@@ -65,10 +64,11 @@ void quick_sort_recursion(int *array, int low, int high, size_t size)
  * @array: input array
  * @high: last index of the array
  * @low: frist index of the array
+ * @size: size of the array
  *
  * Return: index for the new pivot elment
  */
-int lomuto_partition(int *array, int low, int high)
+int lomuto_partition(int *array, int low, int high, size_t size)
 {
 	int pivot, i, j;
 
@@ -76,11 +76,14 @@ int lomuto_partition(int *array, int low, int high)
 	i = low - 1;
 
 	for (j = low; j < high; j++)
-	if (array[j] <= pivot)
 	{
-		i++;
-		swap(&array[i], &array[j]);
+		if (array[j] <= pivot)
+		{
+			i++;
+			swap(&array[i], &array[j]);
+		}
 	}
 	swap(&array[i + 1], &array[high]);
+	print_array(array, size);
 	return (i + 1);
 }
