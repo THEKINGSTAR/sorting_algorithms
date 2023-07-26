@@ -31,7 +31,7 @@ void swap(int *fe, int *se)
  */
 void quick_sort(int *array, size_t size)
 {
-	printf("ARRAY SIZE IS : %ld\n", size);
+	/* printf("ARRAY SIZE IS : %ld\n", size); */
 	quick_sort_recursion(array, 0, size - 1, size);
 }
 
