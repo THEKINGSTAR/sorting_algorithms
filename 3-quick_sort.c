@@ -31,6 +31,7 @@ void swap(int *fe, int *se)
  */
 void quick_sort(int *array, size_t size)
 {
+	printf("ARRAY SIZE IS : %ld\n", size);
 	quick_sort_recursion(array, 0, size - 1, size);
 }
 
@@ -74,10 +75,10 @@ int lomuto_partition(int *array, int low, int high)
 	pivot = array[high];
 	i = low - 1;
 
-	for (j = low; j <= high - 1; j++)
+	for (j = low; j < high; j++)
 	if (array[j] <= pivot)
 	{
-		i = i + 1;
+		i++;
 		swap(&array[i], &array[j]);
 	}
 	swap(&array[i + 1], &array[high]);
