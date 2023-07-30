@@ -1,5 +1,62 @@
 #include "sort.h"
 
+/**
+ * _insertion_sort_list - implementation insertion_sort algorithm
+ *
+ * @list: input linked list
+ * You are not allowed to modify the integer n of a node.
+ * You have to swap the nodes themselves.
+ * You’re expected to print the list
+ * after each time you swap two elements
+ *
+ * Return: FUNCTION DO NOT RETURN
+ */
+void _insertion_sort_list(listint_t **list)
+{
+	listint_t *curnt, *curs, *prev, *head;
+
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
+		return;
+	curnt = *list;
+	head = *list;
+	curs = head;
+	while (curs != NULL)
+	{
+		/*Check curser is advanced correctlly*/
+		/*printf("CURSER VAL NW IS:%d\n",curs->n);*/
+		/* Check curnt is advanced correctlly */
+		/*printf("CURRENT VALUE NOW IS: %d \n", curnt->n);*/
+		while (curnt->next != NULL)
+		{
+			if (curnt->n > curnt->next->n)
+			{
+				printf("COMPAREV BETWEEN CURNT %d, NEXT %d , AND SWITCH BOTH VLUES!!I\n\n",
+						curnt->n, curnt->next->n);
+				/* |5| |3| |4| |6| */
+				/*  p   c   n  cnn */
+				prev = curnt->prev;
+				prev->next = curnt->next;
+				/* p --> n */
+				prev->next->prev = prev;
+				/* p <-- n */
+				curnt->next = prev->next->next;
+				/* c --> cnn */
+				curnt->next->prev = curnt;
+				curnt->prev = prev->next;
+				print_list(*list);
+			}
+			else
+			{	curnt = curnt->next;	}
+			curnt = curnt->next;
+		}
+		curs = curs->next;
+	}
+	*list = head;
+}
+
+
+
+
 
 /**
  * insertion_sort_list - implementation insertion_sort algorithm
@@ -7,52 +64,45 @@
  * @list: input linked list
  * You are not allowed to modify the integer n of a node.
  * You have to swap the nodes themselves.
- * You’re expected to print the list 
+ * You’re expected to print the list
  * after each time you swap two elements
  *
  * Return: FUNCTION DO NOT RETURN
  */
 void insertion_sort_list(listint_t **list)
 {
-	size_t len, itr;
-	int key;
-	listint_t *in_lst, *curnt, *curs, *prev, *head;
+	listint_t *curr, *next, *prev;
 
-	len = 0;
-	curnt = *list;
-	head = *list;
-	while(curnt)
-	{
-		len++;
-		curnt = curnt->next;
-	}
-	printf("LIST LEN = %ld\n",len);
+	if (list == NULL || *list == NULL || (*list)->next == NULL)
+		return;
 
-	for (itr = 1; itr < len; itr++)
+	curr = (*list)->next;
+
+	while (curr != NULL)
 	{
-		key = curnt->n;
-		printf("KEY IS %d", key);
-		prev = curnt->prev;
-		while (prev != NULL && prev->n > key)
+		next = curr->next;
+		prev = curr->prev;
+
+		while (prev != NULL && prev->n > curr->n)
 		{
-			curs = prev->prev;
-			if (prev->prev)
-					prev->prev->next = curnt;
-			else
-				head = curnt;
-			if (curnt->next)
-			{
-				curnt->next->prev = prev;
-			}
-			prev->next = curnt->next;
-			curnt->prev = prev->prev;
-			prev->prev = curnt;
-			curnt->next = prev;
-			
+			prev->next = curr->next;
+			if (curr->next != NULL)
+				curr->next->prev = prev;
 
-			prev = curs;
-			print_list(head);
+			curr->next = prev;
+			curr->prev = prev->prev;
+			prev->prev = curr;
+
+			if (curr->prev != NULL)
+				curr->prev->next = curr;
+			else
+				*list = curr;
+
+			print_list(*list);
+
+			prev = curr->prev;
 		}
+
+		curr = next;
 	}
-	*list = head;
 }

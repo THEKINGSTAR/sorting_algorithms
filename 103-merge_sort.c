@@ -1,85 +1,98 @@
 #include "sort.h"
 
-void quick_sort_recursion(int *array, int low, int high, size_t size);
-int lomuto_partitio(int *array, int low, int high);
-
 /**
- * swap - function to swap tow elemnt in array
+ * merge - merge the sorted array
  *
- * @fe: the first ilment
- * @se: the elemet to swap with
- *
- * Return: fucntion has no return value
- */
-void swap(int *fe, int *se)
-{
-	int tmp;
-
-	tmp = *fe;
-	*fe  = *se;
-	*se  = tmp;
-}
-
-
-/**
- * quick_sort - implementation quick sort algorithm
- *
- * @array: input array
- * @size: size of the array
- *
- * Return: FUNCTION DO NOT RETURN
- */
-void quick_sort(int *array, size_t size)
-{
-	quick_sort_recursion(array, 0, size - 1, size);
-}
-
-/**
- * quick_sort_recursion - implementation quick sort algorithm
- *
- * @array: input array
- * @size: size of the array
- * @high: last index of the array
- * @low: frist index of the array
+ * @arr: input array
+ * @mid: the middle of the array
+ * @end: last index of the array
+ * @start: frist index of the array
  *
  * Return: FUNCTION DO NOT RETURN value
  */
 
-void quick_sort_recursion(int *array, int low, int high, size_t size)
+void merge(int arr[], int start, int mid, int end)
 {
-	int pivot_idx;
+    int size1 = mid - start + 1;
+	int size2 = end - mid;       
+    int LeftArray[size1];
+    int rightArray[size2];
+    int i, j, k = start;
 
-	if (low < high)
-	{
-		pivot_idx = lomuto_partition(array, low, high);
-		quick_sort_recursion(array, low, pivot_idx - 1, size);
-		quick_sort_recursion(array, pivot_idx + 1, high, size);
-	}
-	print_array(array, size);
+    
+    for (i = 0; i < size1; i++)
+    {
+        LeftArray[i] = arr[start + i];
+    }
+
+    for (j = 0; j < size2; j++)
+    {
+        rightArray[j] = arr[mid+1+j];
+    }
+
+    /* merge arrys sorted */
+    while (i < size1 && j < size2)
+    {
+        if (LeftArray[i] < rightArray[j])
+        {
+            arr[k] = LeftArray[i];
+            i++;
+        }
+        else
+        {
+            arr[k] = rightArray[j];
+            j++;
+        }
+        k++;
+    }
+
+    /* copy remaining elemnt in left arry */
+    while(i < size1)
+    {
+        arr[k] = LeftArray[i];
+        i++;
+        k++;
+    }
+    /* copy remaining elemnt in right arry */
+    while (j < size2)
+    {
+        arr[k] = rightArray[j];
+        j++;
+        k++;
+    }
+
 }
 
 /**
- * lomuto_partition - implementation lomuto_partition scheme
+ * mergeSrot - implementation merge Srot algorithm
+ *
+ * @arr: input array
+ * @end: last index of the array
+ * @start: frist index of the array
+ *
+ * Return: FUNCTION DO NOT RETURN value
+ */
+void mergeSrot(int arr[], int start , int end)
+{
+    int mid = start + ( end - start ) / 2;
+
+    if (start == end)
+        return;
+
+    mergeSrot(arr, start, mid);
+    mergeSrot(arr, mid + 1, end);
+    merge(arr, start, mid, end);
+}
+
+/**
+ * merge_sort - implementation merge sort algorithm
  *
  * @array: input array
- * @high: last index of the array
- * @low: frist index of the array
+ * @size: size of the array
  *
- * Return: index for the new pivot elment
+ * Return: FUNCTION DO NOT RETURN value
  */
-int lomuto_partition(int *array, int low, int high)
+void merge_sort(int *array, size_t size)
 {
-	int pivot, i, j;
-
-	pivot = array[high];
-	i = low - 1;
-
-	for (j = low; j <= high - 1; j++)
-	if (array[j] <= pivot)
-	{
-		i = i + 1;
-		swap(&array[i], &array[j]);
-	}
-	swap(&array[i + 1], &array[high]);
-	return (i + 1);
+        mergeSrot(array, 0, size);
 }
